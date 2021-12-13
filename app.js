@@ -11,6 +11,10 @@ const io = new Server(httpServer, {
     }
 });
 
+let port = process.env.PORT;
+if (port == null || port == "") {
+    port = 3000;
+}
 
 io.on('connection', socket => {
 
@@ -77,4 +81,4 @@ io.on('connection', socket => {
     });
 });
 
-httpServer.listen(3000, () => { });
+httpServer.listen(port, () => { });
