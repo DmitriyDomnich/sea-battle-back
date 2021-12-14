@@ -17,7 +17,7 @@ if (port == null || port == "") {
 }
 
 io.on('connection', socket => {
-
+    console.log(`${socket.id} connected`);
     socket.on('room-exists', (roomId) => {
         if (!io.of('/').adapter.rooms.has(roomId)) {
             socket.emit('joinError', "Game doesn't exist. Create a new one.");
@@ -76,7 +76,11 @@ io.on('connection', socket => {
     socket.on('sendTwoFieldConfiguration', (fieldConfigurations, roomId) => {
         socket.to(roomId).emit('gameIsGoing', fieldConfigurations);
     });
+    io.of("/").adapter.on("join-room", (room, id) => {
+        console.log(io.of("/").adapter.rooms);
+    });
     io.of('/').adapter.on('leave-room', (room, id) => {
+        console.log(`${id} left ${room}`);
         socket.to(room).emit('enemyLeftGame');
     });
 });
